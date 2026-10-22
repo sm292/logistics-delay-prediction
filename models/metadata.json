@@ -1,0 +1,24 @@
+{
+    "model_name": "Logistic Regression",
+    "features": [
+        "purchase_month",
+        "purchase_weekday",
+        "purchase_hour",
+        "is_weekend",
+        "estimated_delivery_days",
+        "item_count",
+        "total_price",
+        "total_freight",
+        "seller_count",
+        "same_state",
+        "customer_state",
+        "seller_state",
+        "product_category_name"
+    ],
+    "classification_threshold": 0.5,
+    "selection_metric": "average_precision",
+    "training_rows": 77176,
+    "test_rows": 19294,
+    "test_start": "2018-05-26 18:18:03",
+    "test_end": "2018-08-29 15:00:37"
+}

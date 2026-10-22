@@ -1,0 +1,73 @@
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+
+# Generated data
+# Keep the data directory structure documented with .gitkeep files if needed.
+data/raw/*
+data/processed/*
+
+# Preserve placeholder files
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Trained model artifacts
+# Remove these exclusions only if you intentionally want to version the model.
+models/*.joblib
+models/*.pkl
+
+# Preserve model metadata, which is useful for project documentation.
+!models/metadata.json
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
