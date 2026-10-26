@@ -1,127 +1,184 @@
 
-# Logistics Delay Prediction & Supply Chain Intelligence
+# 🚚 Logistics Delay Prediction & Supply Chain Intelligence
 
-## Project Overview
+An end-to-end Data Science and Machine Learning project that predicts late-delivery risk using historical e-commerce data. The solution combines data preprocessing, feature engineering, classification models, model evaluation, and an interactive Streamlit dashboard to support proactive shipment risk assessment.
 
-This project uses machine learning to predict potential delivery delays and provide supply chain risk insights. It processes historical e-commerce order data, engineers relevant delivery-related features, compares classification models, and presents order-level risk predictions through an interactive Streamlit dashboard.
+🔗 **GitHub Repository:** https://github.com/sm292/logistics-delay-prediction
 
-The project uses the Brazilian E-Commerce Public Dataset by Olist for model development and evaluation.
+## 📌 Project Overview
 
-**Project type:** End-to-end Data Science and Machine Learning  
-**Domain:** Logistics, E-commerce, Supply Chain Analytics  
-**Interface:** Streamlit dashboard  
-**Language:** Python
+Delivery delays can negatively affect customer satisfaction, logistics costs, inventory planning, and supply chain efficiency.
 
-## Business Problem
+This project uses the Olist Brazilian E-Commerce Public Dataset to build a machine learning pipeline that estimates the risk of late delivery and presents actionable order-level insights through an interactive dashboard.
 
-Late deliveries can affect customer satisfaction, operational efficiency, seller performance, and logistics costs.
+The system also supports scoring new orders from CSV or JSON files and maintaining a persistent record of scored orders.
 
-This project aims to help identify orders that may be at greater risk of arriving late, allowing logistics teams to investigate potentially problematic orders and prioritize operational attention.
+## 🎯 Business Objectives
 
-## Project Objectives
+- Predict whether an order is likely to be delivered late.
+- Identify patterns associated with delivery performance.
+- Engineer meaningful features from order, seller, product, and delivery data.
+- Compare classification models using appropriate evaluation metrics.
+- Generate late-delivery probabilities and configurable risk categories.
+- Enable batch prediction through CSV and JSON uploads.
+- Track previously scored order IDs to reduce duplicate processing.
+- Present results through an interactive analytics dashboard.
 
-- Prepare and validate historical e-commerce order data.
-- Engineer features relevant to delivery performance.
-- Define late delivery as delivery after the estimated delivery date.
-- Train and compare Logistic Regression and Random Forest classifiers.
-- Evaluate models using Average Precision, ROC-AUC, precision, recall, F1-score, and a confusion matrix.
-- Generate order-level late-delivery risk probabilities.
-- Categorize predictions into Low, Medium, and High risk.
-- Display model results and risk indicators in a Streamlit dashboard.
-- Support CSV and JSON uploads for scoring new orders.
-- Store newly scored orders and identify previously processed order IDs.
+## 🗂️ Dataset
 
-## Technology Stack
+**Source:** Olist Brazilian E-Commerce Public Dataset
 
-| Category | Tools |
+The project uses selected datasets covering:
+
+- Customer and order information
+- Order item quantities and prices
+- Freight costs
+- Seller and customer locations
+- Product categories
+- Purchase and estimated delivery dates
+
+The target variable identifies whether an eligible order was delivered after its estimated delivery date.
+
+The model uses historical data and is intended for retrospective evaluation and risk estimation, not as a live carrier-tracking system.
+
+## 🛠️ Technology Stack
+
+| Category | Technologies |
 |---|---|
 | Programming | Python |
-| Data manipulation | Pandas, NumPy |
-| Machine learning | Scikit-learn |
+| Data Analysis | Pandas, NumPy |
+| Machine Learning | Scikit-learn |
+| Classification | Logistic Regression, Random Forest |
 | Visualization | Plotly, Matplotlib, Seaborn |
-| Web dashboard | Streamlit |
-| Model persistence | Joblib |
-| Data storage | CSV and JSON |
-| Testing support | Pytest |
-| Version control | Git and GitHub |
+| Interactive Dashboard | Streamlit |
+| Model Persistence | Joblib |
+| Data Exchange | CSV, JSON |
+| Testing Support | Pytest |
+| Version Control | Git, GitHub |
 
-## Dataset
+## ⚙️ Methodology
 
-The project uses selected files from the Olist Brazilian E-Commerce Public Dataset.
+### 1. Data Preparation
 
-Required source files:
+- Load and combine the required Olist datasets.
+- Parse purchase and delivery timestamps.
+- Validate records and handle missing values.
+- Define the late-delivery target.
+- Prepare a structured dataset for model development.
 
-- `olist_orders_dataset.csv`
-- `olist_customers_dataset.csv`
-- `olist_order_items_dataset.csv`
-- `olist_sellers_dataset.csv`
-- `olist_products_dataset.csv`
+### 2. Feature Engineering
 
-These files provide information about orders, delivery timestamps, customers, sellers, products, prices, and freight.
+Create predictive features such as:
 
-The dataset is used to build a retrospective predictive model. It does not represent a live logistics feed.
+- Purchase month, weekday, and hour
+- Weekend purchase indicator
+- Estimated delivery duration
+- Number of items and sellers per order
+- Total product price and freight
+- Customer and seller states
+- Same-state shipping indicator
+- Product category
 
-## Project Structure
+### 3. Machine Learning
+
+Train and compare:
+
+- Logistic Regression
+- Random Forest Classifier
+
+The preprocessing pipeline handles numerical and categorical features through imputation, scaling, and one-hot encoding where appropriate.
+
+A chronological train/test split is used to better reflect the order of events over time.
+
+### 4. Model Evaluation
+
+Evaluate model performance using:
+
+- Average Precision
+- ROC-AUC
+- Precision
+- Recall
+- F1-score
+- Confusion Matrix
+
+The model selection process uses Average Precision on the test set. Actual performance figures should be taken from the generated evaluation outputs.
+
+### 5. Shipment Risk Scoring
+
+The prediction pipeline produces:
+
+- Predicted late-delivery probability
+- Predicted delivery-risk label
+- Risk category
+- Scoring timestamp
+
+Configurable risk bands:
+
+| Risk Category | Predicted Probability |
+|---|---|
+| Low | Below 30% |
+| Medium | 30% to below 60% |
+| High | 60% or above |
+
+These thresholds are configurable business rules, not guarantees of actual delivery outcomes.
+
+## 📊 Streamlit Dashboard
+
+The interactive dashboard supports:
+
+- Historical model evaluation and order analysis
+- CSV and JSON file uploads
+- Batch scoring of new orders
+- Order-level risk assessment
+- Adjustable classification thresholds
+- Risk distribution visualizations
+- Model comparison results
+- Actual-versus-predicted analysis when outcomes are available
+- Order risk register and CSV export
+- Persistent storage of newly scored orders
+- Duplicate order ID checks
+- Manual and periodic dashboard refresh
+
+The application refreshes available local data but does not automatically retrain the model or retrieve real-time carrier updates.
+
+## 📁 Project Structure
 
 ```text
 logistics-delay-prediction/
-│
 ├── app.py
+├── app_backup.py
 ├── README.md
 ├── .gitignore
-│
-├── data/
-│   ├── raw/
-│   │   ├── olist_orders_dataset.csv
-│   │   ├── olist_customers_dataset.csv
-│   │   ├── olist_order_items_dataset.csv
-│   │   ├── olist_sellers_dataset.csv
-│   │   └── olist_products_dataset.csv
-│   │
-│   └── processed/
-│       ├── orders_features.csv
-│       ├── model_comparison.csv
-│       ├── scored_test_orders.csv
-│       └── live_scored_orders.csv
-│
+├── models/
+│   ├── delay_model.joblib
+│   └── metadata.json
 ├── src/
 │   ├── prepare_data.py
 │   ├── train_model.py
 │   └── score_new_orders.py
-│
-├── models/
-│   ├── delay_model.joblib
-│   └── metadata.json
-│
-├── tests/
-│
-└── .venv/
+├── data/
+│   ├── raw/
+│   └── processed/
+└── tests/
 ```
 
-Some generated files may not exist until the relevant pipeline stage has been executed.
+Some directories and generated files are created during the execution of the pipeline.
 
-## Installation
+## 🚀 Installation & Execution
 
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/sm292/logistics-delay-prediction.git
 cd logistics-delay-prediction
 ```
 
-### 2. Create a virtual environment
+### 2. Create and activate a virtual environment
 
 Windows PowerShell:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-If PowerShell blocks script execution, you can temporarily allow activation for the current terminal session:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
 ```
 
@@ -132,13 +189,9 @@ python -m pip install --upgrade pip
 python -m pip install pandas numpy scikit-learn matplotlib seaborn joblib streamlit plotly pytest streamlit-autorefresh
 ```
 
-## Execution Guide
+### 4. Prepare the dataset
 
-Run commands from the project root directory, with the virtual environment activated.
-
-### Step 1: Prepare the dataset
-
-Place the five required Olist CSV files in `data/raw/`.
+Download the required Olist dataset files and place them in `data/raw/`.
 
 Run:
 
@@ -146,182 +199,51 @@ Run:
 python src/prepare_data.py
 ```
 
-Expected output:
-
-```text
-data/processed/orders_features.csv
-```
-
-This stage processes order timestamps, filters suitable delivered orders, creates the late-delivery target, engineers features, joins supporting datasets, and validates the resulting data.
-
-### Step 2: Train and evaluate models
-
-Run:
+### 5. Train and evaluate the models
 
 ```bash
 python src/train_model.py
 ```
 
-Expected outputs:
+This step generates the trained model, model metadata, model comparison results, and test-order predictions.
 
-```text
-models/delay_model.joblib
-models/metadata.json
-data/processed/model_comparison.csv
-data/processed/scored_test_orders.csv
-```
-
-The training pipeline uses a chronological train/test split to better reflect the order of events over time.
-
-Models compared:
-
-- Logistic Regression
-- Random Forest Classifier
-
-The selected model is saved for subsequent scoring.
-
-### Step 3: Launch the dashboard
-
-Run:
+### 6. Launch the dashboard
 
 ```bash
 streamlit run app.py
 ```
 
-Open the local URL displayed in the terminal, usually:
+Open the local URL displayed in the terminal.
 
-```text
-http://localhost:8501
-```
+## 💡 Business Applications
 
-### Step 4: Score uploaded orders
+- Prioritize orders with elevated predicted delay risk.
+- Support logistics exception management.
+- Identify delivery-performance patterns across product and location segments.
+- Improve operational monitoring and investigation.
+- Support data-driven discussions around shipment planning and customer experience.
 
-Prepare a CSV or JSON file containing the required feature columns and a unique `order_id` for each order.
+These are potential applications; actual operational improvements require validation on representative business data.
 
-Upload the file through the dashboard and trigger scoring.
+## 🔮 Future Enhancements
 
-The scoring pipeline generates:
+- Explain predictions using SHAP and feature importance.
+- Integrate authorized carrier tracking, traffic, and weather APIs.
+- Add model drift monitoring and scheduled retraining.
+- Improve duplicate detection and updated-order handling.
+- Introduce automated testing and CI/CD.
+- Deploy with Docker and cloud infrastructure.
+- Add authentication, audit logs, and role-based access controls.
 
-- Late-delivery risk probability
-- Predicted late-delivery label
-- Risk band
-- Scoring timestamp
-
-Newly scored orders are stored in:
-
-```text
-data/processed/live_scored_orders.csv
-```
-
-The application checks existing IDs in the live scoring file to avoid scoring those IDs again. Duplicate IDs within an uploaded file are reduced to the first occurrence.
-
-**Important:** Existing IDs with changed feature values are currently skipped rather than updated. The historical test-set file is separate from the live scoring file, so an ID present only in the historical file may be scored again.
-
-## Feature Engineering
-
-The model uses the following features:
-
-| Feature | Description |
-|---|---|
-| `purchase_month` | Month of purchase |
-| `purchase_weekday` | Day of the week of purchase |
-| `purchase_hour` | Hour of purchase |
-| `is_weekend` | Whether purchase occurred on a weekend |
-| `estimated_delivery_days` | Estimated delivery duration |
-| `item_count` | Number of items in the order |
-| `total_price` | Combined item price |
-| `total_freight` | Combined freight value |
-| `seller_count` | Number of distinct sellers |
-| `same_state` | Whether customer and seller are in the same state |
-| `customer_state` | Customer state |
-| `seller_state` | Seller state |
-| `product_category_name` | Product category |
-
-The preprocessing pipeline imputes missing values, scales numerical features, and one-hot encodes categorical features.
-
-## Model Evaluation
-
-The models are evaluated using:
-
-- **Average Precision:** Useful for evaluating performance when late deliveries are less common.
-- **ROC-AUC:** Measures the model's ability to rank late and on-time deliveries.
-- **Precision:** Proportion of predicted late orders that were actually late.
-- **Recall:** Proportion of actual late orders identified by the model.
-- **F1-score:** Balance between precision and recall.
-- **Confusion matrix:** Summarizes correct and incorrect classifications.
-
-The selected model is chosen using Average Precision on the test set.
-
-A classification threshold of 0.5 is used for the standard predicted label, while the dashboard allows the threshold to be adjusted.
-
-Actual evaluation scores should be taken from the generated project output files rather than assumed in advance.
-
-## Risk Classification
-
-The scoring pipeline assigns risk bands based on predicted probability:
-
-| Risk band | Probability |
-|---|---|
-| Low | Below 0.30 |
-| Medium | 0.30 to below 0.60 |
-| High | 0.60 or above |
-
-These thresholds are configurable business rules, not guaranteed probabilities of actual operational failure.
-
-## Dashboard Capabilities
-
-The Streamlit application provides:
-
-- Historical test-set and uploaded-order analysis
-- CSV and JSON order uploads
-- Order-level risk scoring
-- Low, Medium, and High risk classification
-- Adjustable classification threshold
-- Risk distribution charts
-- Model comparison results
-- Actual-versus-predicted analysis where actual outcomes are available
-- Order risk register and CSV export
-- Periodic dashboard refresh and manual refresh
-- Duplicate-order handling for live-scored records
-
-Automatic refresh reloads available local data; it does not automatically retrain the model or connect to a live carrier tracking system.
-
-## Data Privacy and GitHub
-
-Do not commit the virtual environment, raw customer/order datasets, private credentials, or large generated files unless you have a clear reason and permission to share them.
-
-For a public portfolio, prefer documented dataset download instructions and reproducible setup steps. Review the dataset's terms and repository contents before publishing.
-
-## Limitations
-
-- The model is trained on historical Olist data.
-- Model performance may differ on new regions, sellers, products, or operational conditions.
-- Predictions are estimates, not guarantees of delivery outcomes.
-- The current pipeline requires prepared model features rather than arbitrary raw order records.
-- Risk thresholds are configurable and should be validated against business costs.
-- The dashboard does not independently retrieve real-time tracking updates.
-- Estimated financial savings or avoided losses have not been established by this project.
-
-## Future Improvements
-
-- Add automated unit and integration tests.
-- Improve duplicate detection across historical and live datasets.
-- Add explicit handling for updated orders.
-- Tune decision thresholds using business costs and validation data.
-- Add model explainability with feature importance or SHAP.
-- Add drift monitoring and periodic model retraining.
-- Integrate authorized carrier tracking APIs.
-- Add authentication, access control, and audit logging before production deployment.
-- Package the application with Docker and set up CI/CD.
-
-## Author
+## 👨‍💻 Author
 
 **Sumit Mondal**
 
 Data Science | Machine Learning | Python | SQL | Business Intelligence
 
-GitHub: https://github.com/sm292
+- GitHub: https://github.com/sm292
+- Project: https://github.com/sm292/logistics-delay-prediction
 
-## Disclaimer
+## ⚠️ Disclaimer
 
-This is a portfolio and learning project. It is not a production-validated logistics decision system. Predictions should be evaluated on representative operational data before being used for business decisions.
+This repository is a portfolio and learning project. Predictions are estimates based on historical data and should not be treated as guaranteed delivery outcomes. Evaluate model performance and validate the solution on representative operational data before using it for business decisions.
