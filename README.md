@@ -1,4 +1,4 @@
-<img width="481" height="73" alt="image" src="https://github.com/user-attachments/assets/021842ee-d721-4d58-a096-5784a5011163" /><img width="481" height="73" alt="image" src="https://github.com/user-attachments/assets/fe2aa264-c317-4c19-a118-271fcfa002b1" /><img width="481" height="73" alt="image" src="https://github.com/user-attachments/assets/48c89694-52b5-4054-9860-ec0c09c7141c" /># Industrial Predictive Maintenance
+# Industrial Predictive Maintenance
 
 An end-to-end machine learning project for predicting industrial equipment failure risk using sensor and operating-condition data. The project combines data preprocessing, exploratory analysis, model training, evaluation, and a Streamlit interface for predictive maintenance decision support.
 
@@ -95,13 +95,18 @@ streamlit run app.py
 
 Run the commands from the repository root. Ensure the training script and application use the same saved model and data paths.
 
-## Model Evaluation
+## Model Performance Comparison
 
-Evaluate the trained model on a held-out test set. Report the following metrics when available:
+| Model | Average Precision | ROC-AUC | Precision | Recall | F1-Score |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.075921 | 0.699142 | 0.059125 | 0.752226 | 0.109633 |
+| Random Forest | 0.062226 | 0.676675 | 0.092213 | 0.066766 | 0.077453 |
+### Key Findings
 
-**| model	| average_precision	| roc_auc	| precision | recall	| f1 |**
-| Logistic | Regression	| 0.075921112	| 0.699141984	| 0.059125364	| 0.752225519	| 0.109633474 |
-| Random Forest	| 0.062225668	| 0.676675474	| 0.092213115	| 0.066765579	| 0.077452668 |
+- **Logistic Regression:** Achieved higher Average Precision, ROC-AUC, recall, and F1-score among the two models.
+- **Random Forest:** Achieved higher precision but substantially lower recall.
+- **Model Selection:** Logistic Regression is the stronger candidate when detecting as many actual equipment failures as possible is the priority. However, its low precision indicates that many predicted failures may be false alarms.
+- **Next Steps:** Evaluate the precision-recall curve, tune the classification threshold, and validate performance on an independent test set.
 
 
 Because equipment failures may be rare, accuracy alone is not sufficient. Threshold selection should consider the relative costs of missed failures and unnecessary inspections.
